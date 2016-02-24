@@ -21,7 +21,7 @@ public class ContentParser {
      * @param fetchedPage
      * @return
      */
-    public List<DiscountProduct> parseHTML(FetchedPage fetchedPage) {
+    public static List<DiscountProduct> parseHTML(FetchedPage fetchedPage) {
         Document doc = Jsoup.parse(fetchedPage.getContent());
         //获取折扣商品元素集合
         Elements productElements = doc.getElementsByClass("normal");

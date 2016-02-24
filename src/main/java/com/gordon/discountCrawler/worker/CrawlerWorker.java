@@ -27,7 +27,6 @@ public class CrawlerWorker implements Runnable {
 
     private Integer page = 1;
 
-    private String url = "http://www.joyj.com/real_all/p-";
 
     public CrawlerWorker(int i) {
         this.threadIndex = i;
@@ -36,9 +35,9 @@ public class CrawlerWorker implements Runnable {
     public void startCrawl() {
         while (true) {
             List<DiscountProduct> discountProductList =
-                    contentParser.parseHTML(pageFetcher.getContentFromUrl(url + page.toString()));
+                    contentParser.parseHTML(pageFetcher.getContentFromUrl(CrawlerParams.PAGE_URL + page.toString()));
             //当抓取页面的element不为空时抓取
-            if (discountProductList.size()==0) {
+            if (page == 3) {
                 break;
             }
             dataStorage.store(discountProductList);
@@ -52,13 +51,13 @@ public class CrawlerWorker implements Runnable {
     }
 
     /**
-     * 定时运行该线程爬取全部商品信息
+     * 运行该线程爬取全部商品信息
      */
     public void run() {
         Integer page = 1;
         while (true) {
             List<DiscountProduct> newDetectedList =
-                    contentParser.parseHTML(pageFetcher.getContentFromUrl(url + Integer.toString(page)));
+                    contentParser.parseHTML(pageFetcher.getContentFromUrl(CrawlerParams.PAGE_URL + Integer.toString(page)));
             if (ListStorage.getDiscountProductList().containsAll(newDetectedList)) {
                 //
                 try {
