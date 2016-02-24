@@ -73,7 +73,6 @@ public class CrawlerWorker implements Runnable {
                 if (!ListStorage.getDiscountProductList().contains(discountProduct)) {
                     if (ProductFilter.isMatch(discountProduct)) {
                         //将商品信息发送邮箱
-                        //add new
                         System.out.println(discountProduct.getTitle() + "page:" + page);
                         //TODO
                         ListStorage.getDiscountProductList().add(discountProduct);
