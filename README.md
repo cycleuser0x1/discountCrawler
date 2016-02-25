@@ -1,6 +1,6 @@
 # discountCrawler
 
-抓取http://www.joyj.com/real_all/网站折扣商品的多线程爬虫，将过滤后的商品信息发送邮箱
+抓取 http://www.joyj.com/real_all/ 网站折扣商品的多线程爬虫，将过滤后的商品信息发送邮箱
 
 概述：
 
