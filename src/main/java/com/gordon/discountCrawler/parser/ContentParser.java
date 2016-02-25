@@ -1,8 +1,11 @@
 package com.gordon.discountCrawler.parser;
 
+import com.gordon.discountCrawler.constants.CrawlerParams;
 import com.gordon.discountCrawler.model.DiscountProduct;
 import com.gordon.discountCrawler.model.FetchedPage;
 import com.gordon.discountCrawler.util.TimeUtil;
+import com.gordon.discountCrawler.worker.CrawlerWorker;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,8 +19,10 @@ import java.util.List;
  * Created by wwz on 2016/2/18.
  */
 public class ContentParser {
+    private static final Logger log = Logger.getLogger(ContentParser.class.getName());
     /**
-     *初始化运行爬虫时抓取全部折扣商品信息
+     * 初始化运行爬虫时抓取全部折扣商品信息
+     *
      * @param fetchedPage
      * @return
      */
@@ -33,7 +38,8 @@ public class ContentParser {
             String title = element.select(".i").text();
             Double discountedPrice = Double.parseDouble(element.select(".p").text());
             Double price = Double.parseDouble(element.select(".h").text());
-            discountProductList.add(new DiscountProduct(id,releasedTime,title,discountedPrice,price));
+            String url = CrawlerParams.PRODUCT_URL + id.substring(2);
+            discountProductList.add(new DiscountProduct(id, releasedTime, title, discountedPrice, price, url));
         }
         return discountProductList;
     }

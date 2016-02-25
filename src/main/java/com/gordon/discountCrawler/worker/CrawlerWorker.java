@@ -5,6 +5,7 @@ import com.gordon.discountCrawler.fetcher.PageFetcher;
 import com.gordon.discountCrawler.filter.ProductFilter;
 import com.gordon.discountCrawler.model.DiscountProduct;
 import com.gordon.discountCrawler.parser.ContentParser;
+import com.gordon.discountCrawler.queue.FilteredDiscountProductQueue;
 import com.gordon.discountCrawler.storage.DataStorage;
 import com.gordon.discountCrawler.storage.impl.ListStorage;
 
@@ -37,12 +38,12 @@ public class CrawlerWorker implements Runnable {
             List<DiscountProduct> discountProductList =
                     contentParser.parseHTML(pageFetcher.getContentFromUrl(CrawlerParams.PAGE_URL + page.toString()));
             //当抓取页面的element不为空时抓取
-            if (page == 3) {
+            if (discountProductList.size() == 0) {
                 break;
             }
             dataStorage.store(discountProductList);
             try {
-                Thread.sleep(CrawlerParams.DEYLAY_TIME);
+                Thread.sleep(CrawlerParams.DELAY_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -51,35 +52,38 @@ public class CrawlerWorker implements Runnable {
     }
 
     /**
-     * 运行该线程爬取全部商品信息
+     * 运行该线程爬取更新的商品信息
      */
     public void run() {
         Integer page = 1;
         while (true) {
             List<DiscountProduct> newDetectedList =
                     contentParser.parseHTML(pageFetcher.getContentFromUrl(CrawlerParams.PAGE_URL + Integer.toString(page)));
+            //当前页面没有新的商品信息更新
             if (ListStorage.getDiscountProductList().containsAll(newDetectedList)) {
-                //
+                //线程等待后继续抓取页面
                 try {
-                    Thread.sleep(CrawlerParams.DEYLAY_TIME);
+                    Thread.sleep(CrawlerParams.DELAY_TIME);
                     page = 1;
                     continue;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+            //当前页面有新的商品信息更新
             for (DiscountProduct discountProduct : newDetectedList) {
+                //筛选更新的商品信息
                 if (!ListStorage.getDiscountProductList().contains(discountProduct)) {
+                    //将关键字匹配的商品信息加入队列
                     if (ProductFilter.isMatch(discountProduct)) {
-                        //将商品信息发送邮箱
-                        System.out.println(discountProduct.getTitle() + "page:" + page);
-                        //TODO
-                        ListStorage.getDiscountProductList().add(discountProduct);
+                        FilteredDiscountProductQueue.addElement(discountProduct);
                     }
+                    //将更新的商品信息加入保存商品信息的集合
+                    ListStorage.getDiscountProductList().add(discountProduct);
                 }
             }
             try {
-                Thread.sleep(CrawlerParams.DEYLAY_TIME);
+                Thread.sleep(CrawlerParams.DELAY_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

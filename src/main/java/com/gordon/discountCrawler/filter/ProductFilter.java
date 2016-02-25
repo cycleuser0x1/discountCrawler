@@ -2,11 +2,22 @@ package com.gordon.discountCrawler.filter;
 
 import com.gordon.discountCrawler.model.DiscountProduct;
 
+import java.util.logging.Logger;
+
 /**
  * Created by wwz on 2016/2/23.
  */
 public class ProductFilter {
-    public static boolean isMatch(DiscountProduct discountProduct){
-        return true;
+    private static final Logger Log = Logger.getLogger(ProductFilter.class.getName());
+
+    public static boolean isMatch(DiscountProduct discountProduct) {
+        if (discountProduct.getTitle().contains(getKeyWord()))
+            return true;
+        else
+            return false;
+    }
+
+    public static String getKeyWord() {
+        return "男";
     }
 }
