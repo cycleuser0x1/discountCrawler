@@ -12,6 +12,7 @@ public class SendEmail implements Runnable {
     private static final Logger log = Logger.getLogger(SendEmail.class.getName());
     public void run() {
         boolean flag = true;
+        StringBuffer stingBuffer = new StringBuffer();
         while (true) {
             DiscountProduct discountProduct = FilteredDiscountProductQueue.pollElement();
             if (discountProduct != null) {
