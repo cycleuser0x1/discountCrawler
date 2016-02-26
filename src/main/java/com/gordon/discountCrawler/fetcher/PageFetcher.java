@@ -31,15 +31,15 @@ public class PageFetcher {
     public PageFetcher() {
         //设置超时时间
         HttpParams params = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(params, 10 * 1000);
-        HttpConnectionParams.setSoTimeout(params, 10 * 1000);
+//        HttpConnectionParams.setConnectionTimeout(params, 10 * 1000);
+//        HttpConnectionParams.setSoTimeout(params, 10 * 1000);
         client = new DefaultHttpClient(params);
     }
 
     /**
      *关闭HttpClient连接
      */
-    public void close() {
+    public synchronized void close() {
         client.getConnectionManager().shutdown();
     }
 
@@ -76,13 +76,13 @@ public class PageFetcher {
             int end = contentType.lastIndexOf(";");
             type = contentType.substring(start, end);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         FetchedPage fetchedPage = null;
-        if (type.equalsIgnoreCase("html")) {
+        if (type.equalsIgnoreCase("html")&&type!=null) {
             fetchedPage = new FetchedPage(url, content, statusCode, ContentType.FETCHEDPAGETYPE_HTML);
-        } else if (type.equalsIgnoreCase("json")) {
+        } else if (type.equalsIgnoreCase("json")&&type!=null) {
             fetchedPage = new FetchedPage(url, content, statusCode, ContentType.FETCHEDPAGETYPE_JSON);
         }
         return fetchedPage;

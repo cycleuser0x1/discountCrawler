@@ -12,16 +12,18 @@ public class SendEmail implements Runnable {
     private static final Logger log = Logger.getLogger(SendEmail.class.getName());
     public void run() {
         boolean flag = true;
-        StringBuffer stingBuffer = new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         while (true) {
             DiscountProduct discountProduct = FilteredDiscountProductQueue.pollElement();
             if (discountProduct != null) {
                 flag = true;
                 //TODO 发送邮件
-                System.out.println("title:" + discountProduct.getTitle() + " url:" + discountProduct.getUrl());
+                sb.append("title:" + discountProduct.getTitle() + " url:" + discountProduct.getUrl()+"\n");
             } else {
                 try {
                     if (flag) {
+                        System.out.print(sb.toString());
+                        sb.setLength(0);
                         System.out.println("waiting for producing...");
                     }
                     flag = false;
