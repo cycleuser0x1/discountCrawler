@@ -1,7 +1,7 @@
 package com.gordon.discountCrawler;
 
 import com.gordon.discountCrawler.constants.CrawlerParams;
-import com.gordon.discountCrawler.email.SendEmail;
+import com.gordon.discountCrawler.mail.SendMail;
 import com.gordon.discountCrawler.fetcher.PageFetcher;
 import com.gordon.discountCrawler.filter.ProductFilter;
 import com.gordon.discountCrawler.model.DiscountProduct;
@@ -32,7 +32,7 @@ public class CrawlerStart {
             }
         }
         new Thread(crawlerWorker).start();
-        new Thread(new SendEmail()).start();
+        new Thread(new SendMail()).start();
         timer.schedule(new TimerTask() {
             //定时清空保存商品信息的集合,只保留前两页的商品信息
             @Override
