@@ -60,6 +60,7 @@ public class PageFetcher {
         get.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:16.0) Gecko/20100101 Firefox/16.0");
         log.info("request url :" + url);
         HttpResponse response;
+        //为了防止请求服务器出现异常，此处要捕获所有异常
         try {
             response = client.execute(get);
             //获得响应状态码
@@ -82,6 +83,7 @@ public class PageFetcher {
                 fetchedPage = new FetchedPage(url, content, statusCode, ContentType.FETCHEDPAGETYPE_JSON);
             }
         } catch (Exception e) {
+            log.error(e);
             e.printStackTrace();
         }
 
