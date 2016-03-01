@@ -23,4 +23,4 @@ DataStorage 数据存储接口，用于存储商品信息，ListStorage是通过
 
 TimeUtil 转换时间的工具类
 
-CrawlerWork
+CrawlerWork 爬虫运行类
