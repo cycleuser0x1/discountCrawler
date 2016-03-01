@@ -14,6 +14,7 @@ public class TimeUtil {
 
     /**
      * 将格式化时间转换为Date对象
+     *
      * @param time
      * @return
      */
@@ -25,5 +26,16 @@ public class TimeUtil {
             e.printStackTrace();
             return new Date();
         }
+    }
+
+    /**
+     * 获得时间戳
+     *
+     * @return
+     */
+    public static String getTimeStamp() {
+        Date nowDate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd mm:ss");
+        return sdf.format(nowDate);
     }
 }
