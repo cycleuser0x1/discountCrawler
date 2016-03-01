@@ -37,7 +37,7 @@ public class PageFetcher {
     }
 
     /**
-     *关闭HttpClient连接
+     * 关闭HttpClient连接
      */
     public synchronized void close() {
         client.getConnectionManager().shutdown();
@@ -52,6 +52,7 @@ public class PageFetcher {
     public FetchedPage getContentFromUrl(String url) {
         String content = null;
         String type = null;
+        FetchedPage fetchedPage = null;
         int statusCode = 500;
 
         //创建get请求，并设置get请求的header
@@ -75,16 +76,15 @@ public class PageFetcher {
             int start = contentType.lastIndexOf("/") + 1;
             int end = contentType.lastIndexOf(";");
             type = contentType.substring(start, end);
-
+            if (type.equalsIgnoreCase("html") && type != null) {
+                fetchedPage = new FetchedPage(url, content, statusCode, ContentType.FETCHEDPAGETYPE_HTML);
+            } else if (type.equalsIgnoreCase("json") && type != null) {
+                fetchedPage = new FetchedPage(url, content, statusCode, ContentType.FETCHEDPAGETYPE_JSON);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        FetchedPage fetchedPage = null;
-        if (type.equalsIgnoreCase("html")&&type!=null) {
-            fetchedPage = new FetchedPage(url, content, statusCode, ContentType.FETCHEDPAGETYPE_HTML);
-        } else if (type.equalsIgnoreCase("json")&&type!=null) {
-            fetchedPage = new FetchedPage(url, content, statusCode, ContentType.FETCHEDPAGETYPE_JSON);
-        }
+
         return fetchedPage;
     }
 }

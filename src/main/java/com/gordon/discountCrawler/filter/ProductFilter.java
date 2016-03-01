@@ -1,5 +1,6 @@
 package com.gordon.discountCrawler.filter;
 
+import com.gordon.discountCrawler.constants.CrawlerParams;
 import com.gordon.discountCrawler.model.DiscountProduct;
 
 import java.util.logging.Logger;
@@ -18,6 +19,6 @@ public class ProductFilter {
     }
 
     public static String getKeyWord() {
-        return "男";
+        return CrawlerParams.KEYWORD;
     }
 }
