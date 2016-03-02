@@ -35,7 +35,7 @@ public class TimeUtil {
      */
     public static String getTimeStamp() {
         Date nowDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return sdf.format(nowDate);
     }
 }

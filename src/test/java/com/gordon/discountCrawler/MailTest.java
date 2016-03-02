@@ -10,7 +10,7 @@ import javax.mail.MessagingException;
  */
 public class MailTest {
     @Test
-    public void mailTest(){
+    public void mailTest() {
         SendMail sendMail = new SendMail();
         try {
             sendMail.send("test msg");
@@ -18,4 +18,5 @@ public class MailTest {
             e.printStackTrace();
         }
     }
+
 }

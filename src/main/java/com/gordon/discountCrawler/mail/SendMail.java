@@ -25,7 +25,10 @@ public class SendMail implements Runnable {
             DiscountProduct discountProduct = FilteredDiscountProductQueue.pollElement();
             if (discountProduct != null) {
                 flag = true;
-                sb.append("title:" + discountProduct.getTitle() + " url:" + discountProduct.getUrl() + "<br/>");
+                sb.append(discountProduct.getTitle() +
+                        "&nbsp现价：<span style=\"color:red\">" + discountProduct.getDiscountedPrice() + "</span>" +
+                        "&nbsp原价：<span style=\"color:blue\">" + discountProduct.getPrice() + "</span>" +
+                        "&nbsp链接地址：<a href=\"" + discountProduct.getUrl() + "\">"+discountProduct.getUrl()+"</a><br/>");
             } else {
                 try {
                     if (flag) {
@@ -49,7 +52,7 @@ public class SendMail implements Runnable {
         }
     }
 
-    public void  send(String msg) throws MessagingException {
+    public void send(String msg) throws MessagingException {
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.host", CrawlerParams.SMTP_ADDRESS);
         prop.put("mail.user", CrawlerParams.OUTBOX);
@@ -61,7 +64,7 @@ public class SendMail implements Runnable {
             }
         };
         //创建邮件会话
-        Session mailSession = Session.getInstance(prop,authenticator);
+        Session mailSession = Session.getInstance(prop, authenticator);
 
         //创建邮件消息
         MimeMessage message = new MimeMessage(mailSession);
@@ -72,15 +75,14 @@ public class SendMail implements Runnable {
         message.setFrom(from);
 
         //设置收件人
-        System.out.println(CrawlerParams.MAIl_ADDRESS);
         InternetAddress to = new InternetAddress(CrawlerParams.MAIl_ADDRESS);
         message.setRecipient(MimeMessage.RecipientType.TO, to);
 
         //设置邮件标题
-        message.setSubject(TimeUtil.getTimeStamp()+"更新的折扣商品信息");
+        message.setSubject(TimeUtil.getTimeStamp() + "更新的折扣商品信息");
 
         //设置邮件内容
-        message.setContent(msg,"text/html;charset=UTF-8");
+        message.setContent(msg, "text/html;charset=UTF-8");
 
         //发送
         Transport.send(message);
