@@ -14,7 +14,8 @@ public class CrawlerParams {
     public static String PASSWORD = null;
     public static String SMTP_ADDRESS = null;
     public static final int CRAWLER_NUM = 1;
-    public static final int DELAY_TIME = 1000;
+    public static final int INIT_REQUEST_DELAY_TIME = 500;
+    public static final int REQUEST_DELAY_TIME = 5000;
     public static final int ONE_DAY = 1000 * 60 * 60 * 24;
     public static final String PAGE_URL = "http://www.joyj.com/real_all/p-";
     public static final String PRODUCT_URL = "http://www.joyj.com/real_go/";

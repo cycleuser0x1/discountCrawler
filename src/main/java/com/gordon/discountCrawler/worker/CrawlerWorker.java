@@ -44,7 +44,7 @@ public class CrawlerWorker implements Runnable {
             }
             dataStorage.store(discountProductList);
             try {
-                Thread.sleep(CrawlerParams.DELAY_TIME);
+                Thread.sleep(CrawlerParams.INIT_REQUEST_DELAY_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -70,7 +70,7 @@ public class CrawlerWorker implements Runnable {
             if (ListStorage.getDiscountProductList().containsAll(newDetectedList)) {
                 //线程等待后继续抓取页面
                 try {
-                    Thread.sleep(CrawlerParams.DELAY_TIME);
+                    Thread.sleep(CrawlerParams.REQUEST_DELAY_TIME);
                     //将抓取页面重置为第一页
                     page = 1;
                     continue;
@@ -91,7 +91,7 @@ public class CrawlerWorker implements Runnable {
                 }
             }
             try {
-                Thread.sleep(CrawlerParams.DELAY_TIME);
+                Thread.sleep(CrawlerParams.REQUEST_DELAY_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
