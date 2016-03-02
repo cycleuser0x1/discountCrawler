@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class ContentParser {
     private static final Logger log = Logger.getLogger(ContentParser.class.getName());
+
     /**
      * 初始化运行爬虫时抓取全部折扣商品信息
      *
@@ -27,6 +28,9 @@ public class ContentParser {
      * @return
      */
     public static List<DiscountProduct> parseHTML(FetchedPage fetchedPage) {
+        if (fetchedPage == null) {
+            return null;
+        }
         Document doc = Jsoup.parse(fetchedPage.getContent());
         //获取折扣商品元素集合
         Elements productElements = doc.getElementsByClass("normal");

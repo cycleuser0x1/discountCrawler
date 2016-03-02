@@ -28,18 +28,19 @@ public class SendMail implements Runnable {
                 sb.append(discountProduct.getTitle() +
                         "&nbsp现价：<span style=\"color:red\">" + discountProduct.getDiscountedPrice() + "</span>" +
                         "&nbsp原价：<span style=\"color:blue\">" + discountProduct.getPrice() + "</span>" +
-                        "&nbsp链接地址：<a href=\"" + discountProduct.getUrl() + "\">"+discountProduct.getUrl()+"</a><br/>");
+                        "&nbsp链接地址：<a href=\"" + discountProduct.getUrl() + "\">" + discountProduct.getUrl() + "</a><br/>");
             } else {
                 try {
                     if (flag) {
                         try {
                             //TODO 发送邮件
-                            send(sb.toString());
-                        } catch (MessagingException e) {
-                            e.printStackTrace();
+//                            send(sb.toString());
+                            System.out.println(sb.toString());
+                        } catch (Exception e) {
+                            log.error("邮件发送失败:+\n" + sb.toString() + "\n" + e.getMessage());
                         }
                         sb.setLength(0);
-                        System.out.println("waiting for producing...");
+                        System.out.println("wait for detecting...");
                     }
                     flag = false;
                     //等待生产者进程将商品信息加入队列

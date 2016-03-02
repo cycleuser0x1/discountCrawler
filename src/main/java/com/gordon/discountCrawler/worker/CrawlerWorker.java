@@ -39,9 +39,9 @@ public class CrawlerWorker implements Runnable {
                     contentParser.parseHTML(pageFetcher.getContentFromUrl(CrawlerParams.PAGE_URL + page.toString()));
             //当抓取页面的element不为空时抓取
 //            if (discountProductList.size() == 0) {
-            if (page == 10) {
-            break;
-        }
+            if (page == 5) {
+                break;
+            }
             dataStorage.store(discountProductList);
             try {
                 Thread.sleep(CrawlerParams.DELAY_TIME);
@@ -63,6 +63,9 @@ public class CrawlerWorker implements Runnable {
             List<DiscountProduct> newDetectedList =
                     contentParser.parseHTML(pageFetcher.getContentFromUrl(CrawlerParams.PAGE_URL + Integer.toString(page)));
             pageFetcher.close();
+            if (newDetectedList == null) {
+                continue;
+            }
             //当前页面没有新的商品信息更新
             if (ListStorage.getDiscountProductList().containsAll(newDetectedList)) {
                 //线程等待后继续抓取页面

@@ -84,9 +84,7 @@ public class PageFetcher {
             }
         } catch (Exception e) {
             log.error(e);
-            e.printStackTrace();
         }
-
         return fetchedPage;
     }
 }
