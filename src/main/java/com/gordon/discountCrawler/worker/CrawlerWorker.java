@@ -38,8 +38,8 @@ public class CrawlerWorker implements Runnable {
             List<DiscountProduct> discountProductList =
                     contentParser.parseHTML(pageFetcher.getContentFromUrl(CrawlerParams.PAGE_URL + page.toString()));
             //当抓取页面的element不为空时抓取
-            if (discountProductList.size() == 0) {
-//            if (page == 5) {
+//            if (discountProductList.size() == 0) {
+            if (page == 5) {
                 break;
             }
             dataStorage.store(discountProductList);

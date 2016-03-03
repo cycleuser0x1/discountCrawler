@@ -1,22 +1,19 @@
 package com.gordon.discountCrawler.mail;
 
 import com.gordon.discountCrawler.constants.CrawlerParams;
+import com.gordon.discountCrawler.mail.impl.SmtpMailSent;
 import com.gordon.discountCrawler.model.DiscountProduct;
 import com.gordon.discountCrawler.queue.FilteredDiscountProductQueue;
-import com.gordon.discountCrawler.util.TimeUtil;
 import org.apache.log4j.Logger;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
 
 /**
  * Created by wwz on 2016/2/25.
  */
 public class SendMail implements Runnable {
     private static final Logger log = Logger.getLogger(SendMail.class.getName());
-    private static final Properties prop = new Properties();
+
+    private static final MailSent mailSent = new SmtpMailSent();
+
 
     public void run() {
         boolean flag = true;
@@ -34,8 +31,8 @@ public class SendMail implements Runnable {
                     if (flag) {
                         try {
                             //TODO 发送邮件
-                            send(sb.toString());
-//                            System.out.println(sb.toString());
+                            mailSent.send(sb.toString());
+                            System.out.println(sb.toString());
                         } catch (Exception e) {
                             log.error("邮件发送失败:+\n" + sb.toString() + "\n" + e.getMessage());
                         }
@@ -53,41 +50,4 @@ public class SendMail implements Runnable {
         }
     }
 
-    public void send(String msg) throws MessagingException {
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.host", CrawlerParams.SMTP_ADDRESS);
-        prop.put("mail.user", CrawlerParams.OUTBOX);
-        prop.put("mail.password", CrawlerParams.PASSWORD);
-        Authenticator authenticator = new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(prop.getProperty("mail.user"), prop.getProperty("mail.password"));
-            }
-        };
-        //创建邮件会话
-        Session mailSession = Session.getInstance(prop, authenticator);
-
-        //创建邮件消息
-        MimeMessage message = new MimeMessage(mailSession);
-
-        //设置发件人
-        InternetAddress from = new InternetAddress(prop.getProperty("mail.user"));
-
-        message.setFrom(from);
-
-        //设置收件人
-        InternetAddress to = new InternetAddress(CrawlerParams.MAIl_ADDRESS);
-        message.setRecipient(MimeMessage.RecipientType.TO, to);
-
-        //设置邮件标题
-        message.setSubject(TimeUtil.getTimeStamp() + "更新的折扣商品信息");
-
-        //设置邮件内容
-        message.setContent(msg, "text/html;charset=UTF-8");
-
-        //发送
-        Transport.send(message);
-
-        System.out.println("send to " + CrawlerParams.MAIl_ADDRESS);
-    }
 }
