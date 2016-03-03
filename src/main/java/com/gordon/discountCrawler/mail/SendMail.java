@@ -34,8 +34,8 @@ public class SendMail implements Runnable {
                     if (flag) {
                         try {
                             //TODO 发送邮件
-//                            send(sb.toString());
-                            System.out.println(sb.toString());
+                            send(sb.toString());
+//                            System.out.println(sb.toString());
                         } catch (Exception e) {
                             log.error("邮件发送失败:+\n" + sb.toString() + "\n" + e.getMessage());
                         }
@@ -87,5 +87,7 @@ public class SendMail implements Runnable {
 
         //发送
         Transport.send(message);
+
+        System.out.println("send to " + CrawlerParams.MAIl_ADDRESS);
     }
 }
