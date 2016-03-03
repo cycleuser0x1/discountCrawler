@@ -12,7 +12,7 @@ public class ProductFilter {
     private static final Logger Log = Logger.getLogger(ProductFilter.class.getName());
 
     public static boolean isMatch(DiscountProduct discountProduct) {
-        if (discountProduct.getTitle().contains(getKeyWord()))
+        if (discountProduct.getTitle().toLowerCase().contains(getKeyWord().toLowerCase()))
             return true;
         else
             return false;
