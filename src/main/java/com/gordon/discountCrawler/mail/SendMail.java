@@ -28,13 +28,12 @@ public class SendMail implements Runnable {
                         "&nbsp链接地址：<a href=\"" + discountProduct.getUrl() + "\">" + discountProduct.getUrl() + "</a><br/>");
             } else {
                 try {
-                    if (flag) {
+                    if (flag && sb.length() > 0) {
                         try {
                             //TODO 发送邮件
                             mailSent.send(sb.toString());
-                            System.out.println(sb.toString());
                         } catch (Exception e) {
-                            log.error("邮件发送失败:+\n" + sb.toString() + "\n" + e.getMessage());
+                            log.error("邮件发送失败:\n" + sb.toString() + "\n" + e.toString());
                         }
                         sb.setLength(0);
                         System.out.println("wait for detecting...");
