@@ -31,8 +31,8 @@ public class SendCloudMailSent implements MailSent {
      */
     public void send(String msg) throws IOException {
         final String url = "http://sendcloud.sohu.com/webapi/mail.send.json";
-        final String apiUser = "hippieJack_test_V32IgC";
-        final String apiKey = "nxHGH1tpe6JoNUWt";
+        final String apiUser = "";
+        final String apiKey = "";
 
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httpost = new HttpPost(url);

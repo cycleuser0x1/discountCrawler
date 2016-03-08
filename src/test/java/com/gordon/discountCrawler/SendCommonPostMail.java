@@ -17,8 +17,8 @@ public class SendCommonPostMail {
 
     public static void main(String[] args) throws IOException {
         final String url = "http://sendcloud.sohu.com/webapi/mail.send.json";
-        final String apiUser = "hippieJack_test_V32IgC";
-        final String apiKey = "nxHGH1tpe6JoNUWt";
+        final String apiUser = "";
+        final String apiKey = "";
 
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httpost = new HttpPost(url);
