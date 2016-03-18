@@ -13,10 +13,6 @@ public class DiscountProduct {
     private Double price;
     private String url;
 
-    public DiscountProduct() {
-
-    }
-
     public DiscountProduct(String id, Date releasedTime, String title, Double discountedPrice, Double price) {
         this.Id = id;
         this.releasedTime = releasedTime;
